@@ -13,4 +13,9 @@ RUN apt-get update && \
 
 COPY . ${HOME}
 
+ENV PROJECT_NAME django_template
+RUN mkdir -p /var/log/${PROJECT_NAME}
+RUN mkdir -p /var/www/${PROJECT_NAME}/static
+RUN mkdir -p /var/www/${PROJECT_NAME}/media
+
 ENTRYPOINT ["uwsgi", "--ini", "uwsgi.ini"]
