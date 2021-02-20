@@ -16,8 +16,8 @@ post_list = PostListView.as_view()
 
 
 class PostDetailView(View):
-    def get(self, request, pk, *args, **kwargs):
-        post = Post.objects.filter(pk=pk)
+    def get(self, request, id, *args, **kwargs):
+        post = get_object_or_404(Post, id=id)
         context = {'post': post}
         return render(request, 'blog/post_detail.html', context)
 
@@ -35,31 +35,29 @@ class PostNewView(View):
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_detail', id=1)
 
 
 post_new = PostNewView.as_view()
 
 
 class PostEditView(View):
-    def get(self, request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, pk=pk)
+    def get(self, request, id, *args, **kwargs):
+        post = get_object_or_404(Post, id=id)
         form = PostForm(instance=post)
         context = {'form': form}
         return render(request, 'blog/post_edit.html', context)
     
-    def post(self, request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, pk=pk)
+    def post(self, request, id, *args, **kwargs):
+        post = get_object_or_404(Post, id=id)
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=True)
-            post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_detail', id=post.id)
     
 
 post_edit = PostEditView.as_view()
