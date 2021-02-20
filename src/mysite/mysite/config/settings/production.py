@@ -1,7 +1,10 @@
 from .base import *
 
 
-LOG_LEVEL = 'DEBUG'
+DEBUG = False
+
+
+LOG_LEVEL = 'INFO'
 
 
 DATABASES = {

@@ -1,9 +1,9 @@
 FROM python:3.8.0
 
 ENV HOME /home/workspace
+
 RUN mkdir ${HOME}
 WORKDIR ${HOME}
-
 COPY requirements.txt ${HOME}
 
 RUN apt-get update && \
@@ -13,9 +13,11 @@ RUN apt-get update && \
 
 COPY . ${HOME}
 
-ENV PROJECT_NAME django_template
+ENV PROJECT_NAME mysite
 RUN mkdir -p /var/log/${PROJECT_NAME}
-RUN mkdir -p /var/www/${PROJECT_NAME}/static
-RUN mkdir -p /var/www/${PROJECT_NAME}/media
 
+WORKDIR ${HOME}/${PROJECT_NAME}
+ENV DJANGO_SETTINGS_MODULE config.settings.production
+
+WORKDIR ${HOME}
 ENTRYPOINT ["uwsgi", "--ini", "uwsgi.ini"]

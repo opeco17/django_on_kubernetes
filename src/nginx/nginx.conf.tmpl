@@ -47,6 +47,14 @@ http {
            break;
         }
 
+        location /static {
+            root /var/www/{{ var "PROJECT_NAME" }};
+        }
+
+        location /media {
+            root /var/www/{{ var "PROJECT_NAME" }};
+        }
+
         location / {
            include uwsgi_params;
            uwsgi_pass {{ var "UWSGI_PASS" }};

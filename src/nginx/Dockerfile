@@ -12,6 +12,14 @@ RUN apt-get update \
 
 COPY nginx.conf.tmpl /etc/nginx/
 
+ENV PROJECT_NAME mysite
+
+RUN mkdir -p /var/www/${PROJECT_NAME}/static
+RUN mkdir -p /var/www/${PROJECT_NAME}/media
+
+COPY static /var/www/${PROJECT_NAME}/static
+COPY media /var/www/${PROJECT_NAME}/media
+
 ENTRYPOINT ["render", "/etc/nginx/nginx.conf", "--"]
 
 CMD ["nginx", "-g", "daemon off;","-c","/etc/nginx/nginx.conf"]
