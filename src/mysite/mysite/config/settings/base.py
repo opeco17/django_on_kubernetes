@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'blog.apps.BlogConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -111,3 +112,7 @@ STATIC_ROOT = f'/var/www/{PROJECT_NAME}/static'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = f'/var/www/{PROJECT_NAME}/media'
+
+## Authentication
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'

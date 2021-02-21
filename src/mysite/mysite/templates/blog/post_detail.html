@@ -1,11 +1,9 @@
 {% extends 'blog/base.html' %}
 
-{% block title %}opeco's blog{% endblock %}
-
 {% block content %}
 <div class="card card-body bg-light" style="clear:both;">
     <div class="post-edit-detail">
-        <a href="{% url 'post_edit' post_id=post.id %}">edit</a>
+        <a href="{% url 'post_edit' post_id=post.id %}">修正する</a>
     </div>
     <div class="post-writer-date-detail">
         <p>{{ post.writer}}&nbsp;&nbsp;{{ post.published_date }}</p>

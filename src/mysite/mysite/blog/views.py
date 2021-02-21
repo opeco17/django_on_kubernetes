@@ -12,17 +12,11 @@ class PostListView(View):
         return render(request, 'blog/post_list.html', context)
 
 
-post_list = PostListView.as_view()
-
-
 class PostDetailView(View):
     def get(self, request, post_id, *args, **kwargs):
         post = Post.objects.filter(id=post_id).first()
         context = {'post': post}
         return render(request, 'blog/post_detail.html', context)
-
-
-post_detail = PostDetailView.as_view()
 
 
 class PostEditView(View):
@@ -42,8 +36,6 @@ class PostEditView(View):
             post.save()
             return redirect('post_detail', post_id=post.id)
 
-post_edit = PostEditView.as_view()
-
 
 class PostNewView(View):
     def get(self, request, *args, **kwargs):
@@ -59,6 +51,3 @@ class PostNewView(View):
             post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', post_id=post.id)
-          
-
-post_new = PostNewView.as_view()
