@@ -41,7 +41,6 @@ class PostEditView(View):
             post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', post_id=post.id)
-    
 
 post_edit = PostEditView.as_view()
 
@@ -60,6 +59,6 @@ class PostNewView(View):
             post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', post_id=post.id)
-
+          
 
 post_new = PostNewView.as_view()
