@@ -1,14 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'blog/base.html' %}
+
+{% block title %}opeco's blog{% endblock %}
 
 {% block content %}
     {% for post in posts %}
-    <div class="post">
-        <div class="date">
-            <p>writer: {{ post.writer }}</p>
-            <p>published: {{ post.published_date }}</p>
+    <div class="card card-body bg-light" style="clear:both;">
+        <div class="post-title" style="text-align: center;">
+            <a href="{% url 'post_detail' post_id=post.id %}" class="noline">{{ post.title}}</a>
         </div>
-        <h2><a href="{% url 'post_detail' id=post.id %}">{{ post.title }}</a></h2>
-        <p>{{ post.text|linebreaksbr }}</p>
+        <div class="post-writer-date">
+            <p>{{ post.writer}}&nbsp;&nbsp;{{ post.published_date }}</p>
+        </div>
     </div>
+    <br>
     {% endfor %}
 {% endblock %}

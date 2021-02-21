@@ -4,7 +4,6 @@ from django.utils import timezone
 
 
 class Post(models.Model):
-    # author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     writer = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
     text = models.TextField()
@@ -16,4 +15,4 @@ class Post(models.Model):
         self.save()
         
     def __str__(self):
-        return self.title
+        return f'id:{self.id}\nwriter:{self.writer}\ntitle:{self.title}\ntext:{self.text}'
