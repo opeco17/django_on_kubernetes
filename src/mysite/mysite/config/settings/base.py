@@ -120,6 +120,8 @@ MEDIA_ROOT = f'/var/www/{PROJECT_NAME}/media'
 
 
 ## Authentication
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',

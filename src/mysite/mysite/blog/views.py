@@ -62,9 +62,10 @@ class PostEditView(View):
             return render(request, 'blog/post_edit.html', context) 
         
         post = form.save(commit=True)
-        post.author = request.user
+        post.writer = request.user
         post.published_date = timezone.now()
         post.save()
+        messages.error(request, '編集されました', extra_tags='info')
         return redirect('post_detail', post_id=post.id)
 
 
@@ -93,5 +94,6 @@ class PostNewView(View):
         post.writer = request.user
         post.published_date = timezone.now()
         post.save()
+        messages.error(request, '新規投稿されました', extra_tags='info')
         return redirect('post_detail', post_id=post.id)
 

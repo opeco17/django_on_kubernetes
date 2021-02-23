@@ -1,23 +1,32 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<div class="card card-body bg-light" style="clear:both;">
-    {% if editable %}
-        <div class="post-edit-detail">
-            <a href="{% url 'post_edit' post_id=post.id %}">修正する</a>
+
+<div class="row justify-content-center">
+    <div class="col-lg-9 col-md-10 col-sm-12">
+        <div class="card mb4 shadow-sm">
+            <div class="card-header">
+                <div class="post-title-detail" style="text-align: center;">
+                    <h1>{{ post.title }}</h1>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if editable %}
+                    <div class="post-edit-detail">
+                        <a href="{% url 'post_edit' post_id=post.id %}">修正する</a>
+                    </div>
+                {% endif %}
+
+                <div class="post-writer-date-detail">
+                    <p>投稿者：{{ post.writer}}</p>
+                    <p>投稿日：{{ post.published_date }}</p>
+                </div>
+                <br><hr><br>
+                <div class="post-text-detail">
+                    <p>{{ post.text|linebreaksbr }}</p>
+                </div>
+            </div>
         </div>
-    {% endif %}
-    <div class="post-writer-date-detail">
-        <p>{{ post.writer}}&nbsp;&nbsp;{{ post.published_date }}</p>
-    </div>
-    <div class="post-title-detail" style="text-align: center;">
-        <h1>{{ post.title }}</h1>
-    </div>
-    <br>
-    <hr>
-    <br>
-    <div class="post-text-detail">
-        <p>{{ post.text|linebreaksbr }}</p>
     </div>
 </div>
 {% endblock %}

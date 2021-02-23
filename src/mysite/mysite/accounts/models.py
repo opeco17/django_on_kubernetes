@@ -1,3 +1,9 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
+
+class CustomUser(AbstractUser):
+    class Meta(AbstractUser.Meta):
+        db_table = 'custom_user'
+        
+    self_introduction = models.TextField(verbose_name='自己紹介', blank=True, null=True)

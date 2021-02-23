@@ -4,12 +4,22 @@
 {% block title %}プロフィール{% endblock %}
 
 {% block content %}
-<h2 style="text-align: center;">プロフィール</h2>
-<p style="text-align: right;"><a href="{% url 'account_logout' %}">ログアウト</a></p>
-<p style="text-align: right;"><a href="{% url 'accounts:account_password_change' %}">パスワードの変更</a></p>
-<form method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <button type="submit" class="btn btn-outline-primary">変更</button>
-</form>
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-md-10 col-sm-12">
+        <div class="card mb4 shadow-sm">
+            <div class="card-header">
+                <h2 style="text-align: center;">プロフィール</h2>
+            </div>
+            <div class="card-body">
+                <p style="text-align: right;"><a href="{% url 'account_logout' %}">ログアウト</a></p>
+                <p style="text-align: right;"><a href="{% url 'accounts:account_password_change' %}">パスワードの変更</a></p>
+                <form method="POST">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <button type="submit" class="btn btn-outline-primary">変更</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

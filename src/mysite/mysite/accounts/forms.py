@@ -10,4 +10,4 @@ class ProfileForm(forms.ModelForm):
     
     class Meta:
         model = get_user_model()
-        fields = ('username', 'first_name', 'last_name', 'email', 'date_joined', 'last_login')
+        fields = ('username', 'email', 'first_name', 'last_name', 'self_introduction', 'date_joined', 'last_login')
