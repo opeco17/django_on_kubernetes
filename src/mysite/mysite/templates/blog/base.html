@@ -6,12 +6,12 @@
 
 <html lang='ja'>
     <head>
-        <title>{% block title %}opecoのブログ{% endblock %}</title>
+        <title>{% block title %}opecoの掲示板{% endblock %}</title>
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="/"><h3>opecoのブログ</h3></a>
+            <a class="navbar-brand" href="/"><h3>opecoの掲示板</h3></a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">ホーム</a></li>
@@ -28,6 +28,11 @@
         </nav>
         <br>
         <div class="content">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
             {% block content %}
             {% endblock %}
         </div>
