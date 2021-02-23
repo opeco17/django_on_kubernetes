@@ -10,6 +10,7 @@ class Post(models.Model):
     text = models.TextField(verbose_name='本文')
     created_date = models.DateTimeField(verbose_name='投稿日', default=timezone.now)
     published_date = models.DateTimeField(verbose_name='公開日', blank=True, null=True)
+    is_private = models.BooleanField(verbose_name='非公開', default=False, null=False)
     
     def publish(self):
         self.published_date = timezone.now()

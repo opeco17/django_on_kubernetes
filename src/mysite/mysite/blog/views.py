@@ -10,10 +10,20 @@ from .utils import login_user_is_writer
 
 class PostListView(View):
     def get(self, request, *args, **kwargs):
-        posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date').reverse()
-        context = {'posts': posts}
+        posts = Post.objects.filter(published_date__lte=timezone.now(), is_private=False)
+        posts = posts.order_by('created_date').reverse()
+        context = {'posts': posts, 'is_private': False}
         return render(request, 'blog/post_list.html', context)
 
+
+class PostListPrivateView(View):
+    def get(self, request, *args, **kwargs):
+        login_user_id = request.user.id
+        posts = Post.objects.filter(published_date__lte=timezone.now(), writer__id=login_user_id)
+        posts = posts.order_by('created_date').reverse()
+        context = {'posts': posts, 'is_private': True}
+        return render(request, 'blog/post_list.html', context)
+    
 
 class PostDetailView(View):
     def get(self, request, post_id, *args, **kwargs):
@@ -46,12 +56,16 @@ class PostEditView(View):
         
         post = get_object_or_404(Post, id=post_id)
         form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save(commit=True)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
-            return redirect('post_detail', post_id=post.id)
+        if not form.is_valid():
+            context = {'form': form}
+            messages.error(request, '正しく入力して下さい', extra_tags='danger')
+            return render(request, 'blog/post_edit.html', context) 
+        
+        post = form.save(commit=True)
+        post.author = request.user
+        post.published_date = timezone.now()
+        post.save()
+        return redirect('post_detail', post_id=post.id)
 
 
 class PostNewView(View):
@@ -70,9 +84,14 @@ class PostNewView(View):
             return redirect('account_login')
         
         form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.writer = request.user
-            post.published_date = timezone.now()
-            post.save()
-            return redirect('post_detail', post_id=post.id)
+        if not form.is_valid():
+            context = {'form': form}
+            messages.error(request, '正しく入力して下さい', extra_tags='danger')
+            return render(request, 'blog/post_edit.html', context) 
+        
+        post = form.save(commit=False)
+        post.writer = request.user
+        post.published_date = timezone.now()
+        post.save()
+        return redirect('post_detail', post_id=post.id)
+

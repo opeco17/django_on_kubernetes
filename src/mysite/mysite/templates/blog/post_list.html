@@ -14,7 +14,11 @@
         <br>
         {% endfor %}
     {% else %}
-        <h2 style="text-align: center;">投稿が存在しません</h2>
+        {% if is_private %}
+            <h2 style="text-align: center;">あなたの投稿は存在しません</h2>
+        {% else %}
+            <h2 style="text-align: center;">投稿は存在しません</h2>
+        {% endif %}
         <br>
         {% if user.is_authenticated %}
             <h3 style="text-align: center;"><a href="{% url 'post_new' %}">こちら</a>から新規投稿できます</h3>
