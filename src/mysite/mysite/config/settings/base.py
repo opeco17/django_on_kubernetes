@@ -25,7 +25,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap4',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    
     'blog.apps.BlogConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -111,3 +117,24 @@ STATIC_ROOT = f'/var/www/{PROJECT_NAME}/static'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = f'/var/www/{PROJECT_NAME}/media'
+
+
+## Authentication
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email' # use email for authentication
+ACCOUNT_USERNAME_REQUIRED = False # don't use username for authentication
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_REQUIRED = True
+
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+ACCOUNT_LOGOUT_ON_GET = True
+
+## Sites
+SITE_ID = 1

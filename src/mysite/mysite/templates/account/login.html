@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}ログイン{% endblock %}
+
+{% block content %}
+<h2 style="text-align: center;">ログイン</h2>
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-outline-primary">ログイン</button>
+</form>
+{% endblock %}
