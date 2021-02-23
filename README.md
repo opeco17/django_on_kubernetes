@@ -1,1 +1,1 @@
-# django_template
+# django_on_kubernetes
