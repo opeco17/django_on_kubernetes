@@ -1,15 +1,25 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    {% for post in posts %}
-    <div class="card card-body bg-light" style="clear:both;">
-        <div class="post-title" style="text-align: center;">
-            <a href="{% url 'post_detail' post_id=post.id %}" class="noline">{{ post.title}}</a>
+    {% if posts %}
+        {% for post in posts %}
+        <div class="card card-body bg-light" style="clear:both;">
+            <div class="post-title" style="text-align: center;">
+                <a href="{% url 'post_detail' post_id=post.id %}" class="noline">{{ post.title}}</a>
+            </div>
+            <div class="post-writer-date">
+                <p>{{ post.writer}}&nbsp;&nbsp;{{ post.published_date }}</p>
+            </div>
         </div>
-        <div class="post-writer-date">
-            <p>{{ post.writer}}&nbsp;&nbsp;{{ post.published_date }}</p>
-        </div>
-    </div>
-    <br>
-    {% endfor %}
+        <br>
+        {% endfor %}
+    {% else %}
+        <h2 style="text-align: center;">投稿が存在しません</h2>
+        <br>
+        {% if user.is_authenticated %}
+            <h3 style="text-align: center;"><a href="{% url 'post_new' %}">こちら</a>から新規投稿できます</h3>
+        {% else %}
+            <h3 style="text-align: center;"><a href="{% url 'account_login' %}">ログイン</a>すれば新規投稿できます</h3>
+        {% endif %}
+    {% endif %}
 {% endblock %}

@@ -21,12 +21,18 @@ class PostDetailView(View):
 
 class PostEditView(View):
     def get(self, request, post_id, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('account_login')
+        
         post = get_object_or_404(Post, id=post_id)
         form = PostForm(instance=post)
         context = {'form': form}
         return render(request, 'blog/post_edit.html', context)
     
     def post(self, request, post_id, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('account_login')
+        
         post = get_object_or_404(Post, id=post_id)
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
@@ -39,11 +45,17 @@ class PostEditView(View):
 
 class PostNewView(View):
     def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('account_login')
+        
         form = PostForm()
         context = {'form': form}
         return render(request, 'blog/post_edit.html', context)
     
     def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('account_login')
+        
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
