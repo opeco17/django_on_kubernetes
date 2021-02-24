@@ -18,6 +18,10 @@ class PostListView(View):
 
 class PostListPrivateView(View):
     def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, 'ログインが必要です', extra_tags='danger')
+            return redirect('account_login')
+        
         login_user_id = request.user.id
         posts = Post.objects.filter(published_date__lte=timezone.now(), writer__id=login_user_id)
         posts = posts.order_by('created_date').reverse()
