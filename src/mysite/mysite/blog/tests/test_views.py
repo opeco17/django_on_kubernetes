@@ -18,7 +18,7 @@ class TestPostListView(TestCase):
     
     def test_get(self):
         """
-        User can see public posts.
+        User can only see public posts.
         """
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'blog/post_list.html')
@@ -57,3 +57,20 @@ class TestPostListPrivateView(TestCase):
         posts = list(response.context['posts'])
         self.assertIn(self.post1, posts)
         self.assertIn(self.post2, posts)
+        
+        
+
+class TestPostDetailView(TestCase):
+    
+    def setUp(self):
+        self.user1 = get_user_model().objects.create_user(username='test_user1', email='test_user1@gmail.com', password='pass1')
+        self.post1 = Post.objects.create(writer=self.user1, title='title1', text='text1', published_date=timezone.now(), is_private=True)
+    
+    def get_private_post_by_owner(self):
+        """
+        User can see owned post detail
+        """
+        logged_in = self.client.login(username='test_user1', email='test_user1@gmail.com', password='pass1')
+        self.assertTrue(logged_in)
+        response = self.client.get('/post/1/')
+        self.assertEqual(response.status_code, 200)

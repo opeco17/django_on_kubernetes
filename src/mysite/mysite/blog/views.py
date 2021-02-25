@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.views.generic import View
@@ -32,6 +33,12 @@ class PostListPrivateView(View):
 class PostDetailView(View):
     def get(self, request, post_id, *args, **kwargs):
         post = Post.objects.get(id=post_id)
+        
+        if post.is_private and (not request.user.is_authenticated):
+            raise Http404('お探しのページは見つかりません')
+        if post.is_private and request.user.id != post.user.id:
+            raise Http404('お探しのページは見つかりません')
+            
         editable = login_user_is_writer(request.user, post.writer)
         context = {'post': post, 'editable': editable}
         return render(request, 'blog/post_detail.html', context)
